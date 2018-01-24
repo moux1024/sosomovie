@@ -23,6 +23,7 @@
 </template>
 
 <script>
+console.log(this.infomation)
 export default {
   name: 'info',
   props: [
@@ -31,7 +32,7 @@ export default {
   data() {
     return {
       msg: 'this is info!',
-      infomation:this.info,
+      infomation: this.info,
       BURL: BURL
     }
   }
