@@ -4,7 +4,7 @@ import Vue from 'vue'
 import FastClick from 'fastclick'
 // import VueRouter from 'vue-router'
 import App from './App'
-import axios from 'axios'
+// import axios from 'axios'
 import infiniteScroll from 'vue-infinite-scroll'
 
 // import Home from './components/Home' //页面模块应放在Router中引入

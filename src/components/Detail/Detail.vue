@@ -4,37 +4,35 @@
       <span class="back" @click="$router.go(-1)"></span>
       <span class="share"></span>
     </p>
+
     <div class="short-cut">
       <!-- todo:缺省图片 -->
       <div class="video">
 
       </div>
       <div class="text-container">
-        <Info :info="movieData"></Info>
+        <Info :info="infomation"></Info>
       </div>
     </div>
     <div class="info-text">
-      <p>原名：<span>{{movieData.articleName}}</span></p>
-      <p>又名：<span>{{movieData.articleEngName}}</span></p>
-      <p>导演：<span>{{movieData.textCn}}</span></p>
-      <p>编剧：<span>{{movieData.textCn}}</span></p>
-      <p>主演：<span>{{movieData.movieCast}}</span></p>
-      <p>类型：<span>{{movieData.articleType}}</span></p>
-      <p>国家：<span>{{movieData.movieCountry}}</span></p>
-      <p>语言：<span>{{movieData.movieLanguage}}</span></p>
-      <p>上映：<span>{{movieData.movieYear}}</span></p>
-      <p>片长：<span>{{movieData.articleLength}}</span></p>
-      <p>IMDb：<span>{{movieData.movieIMDb}}</span></p>
+      <p>原名：<span>{{movieData.articleName||'未知'}}</span></p>
+      <p>又名：<span>{{movieData.articleEngName||'未知'}}</span></p>
+      <p>导演：<span>{{movieData.movieDirector||'未知'}}</span></p>
+      <p>编剧：<span>{{movieData.textCn||'未知'}}</span>TODO</p>
+      <p>主演：<span>{{movieData.movieCast||'未知'}}</span></p>
+      <p>类型：<span>{{movieData.articleType||'未知'}}</span></p>
+      <p>国家：<span>{{movieData.movieCountry||'未知'}}</span></p>
+      <p>语言：<span>{{movieData.movieLanguage||'未知'}}</span></p>
+      <p>上映：<span>{{movieData.movieYear||'0'}}</span></p>
+      <p>片长：<span>{{movieData.articleLength||'0'}}</span></p>
+      <p>IMDb：<span>{{movieData.movieIMDb||'0'}}</span></p>
     </div>
     <div class="synopsis">
       <p class="title">
         {{movieData.articleName}}的剧情简介
       </p>
       <div class="synopsis-text" :class="showMore?'all':''">
-        {{movieData.basicDescription}}
-        <div class="before">
-
-        </div>
+        <p v-for="p in movieData.basicDescription.split('\r\n　　')">{{p}}</p>
         <div class="after" @click="toggle">
           {{this.showMore?"折叠":"展开全文"}}
         </div>
@@ -114,10 +112,14 @@ export default {
       }],
       playerOptions: {},
       movieData: {
-        basicPic: "/upload/article/1/1460380829450.jpg"
+        basicPic: "/upload/article/1/1460380829450.jpg",
+        basicDescription: ""
       },
       zIndex: 1,
-      showMore: false
+      showMore: false,
+      infomation: {
+
+      }
       // dialogOpen: false,
       // dialogInfo: {
       //   title: "磁力链接",
@@ -146,18 +148,20 @@ export default {
       var id = location.hash.split("/")[2];
       axios.get(BURL + ART + id + "/detail.do.do").then(function(res) {
         vm.movieData = res.data
+        vm.infomation = res.data
+        console.log(vm.infomation);
         console.log(res.data);
-        vm.playerOptions = {
-          muted: true,
-          language: 'en',
-          playbackRates: [0.7, 1.0, 1.5, 2.0],
-          sources: [{
-            type: "video/mp4",
-            src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-          }],
-          height: '256px',
-          poster: BURL + vm.movieData.moviePoster.split("|")[0],
-        }
+        // vm.playerOptions = {
+        //   muted: true,
+        //   language: 'en',
+        //   playbackRates: [0.7, 1.0, 1.5, 2.0],
+        //   sources: [{
+        //     type: "video/mp4",
+        //     src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+        //   }],
+        //   height: '256px',
+        //   poster: BURL + vm.movieData.moviePoster.split("|")[0],
+        // }
       })
     },
 
@@ -200,10 +204,10 @@ export default {
         float: right;
     }
     .back::after {
-        /* background-image: url("./static/img/back@2x.png"); */
+        background-image: url("../../assets/back@2x.png");
     }
     .share::after {
-        /* background-image: url("./static/img/share@2x.png"); */
+        background-image: url("../../assets/share@2x.png");
     }
 }
 .header::before {
@@ -221,6 +225,10 @@ export default {
 .short-cut {
     position: relative;
     margin-bottom: 2rem;
+    .video {
+        width: 100%;
+        height: 16rem;
+    }
     .text-container {
         position: absolute;
         left: 0;
@@ -261,30 +269,6 @@ export default {
     div.synopsis-text.all {
         max-height: inherit;
     }
-    div.synopsis-text .before {
-        display: block;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 20%;
-        background: #fff;
-        background-image: linear-gradient(top,#fff 0%,#fff 100%);
-        background-image: -webkit-linear-gradient(top,#fff 0%,#fff 100%);
-        vertical-align: bottom;
-        text-align: center;
-        opacity: 0.5;
-    }
-    div.synopsis-text .after {
-        display: block;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 20%;
-        text-align: center;
-        text-indent: 0;
-        font-size: 0.8rem;
-        color: red;
-    };
 }
 .source {
     width: 93%;

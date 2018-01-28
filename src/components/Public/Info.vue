@@ -5,11 +5,12 @@
         <img :src="BURL+infomation.basicPic" :alt="infomation.basicTitle">
       </div>
       <div class="panel-text">
-        <p class="title-cn">{{infomation.articleName}}</p>
-        <p class="title-en">{{infomation.articleEngName}}</p>
-        <p class="director">导演：{{infomation.articleSource}}</p>
+        <p class="title-cn">{{infomation.articleName||'未知'}}</p>
+        <p class="title-en">{{infomation.articleEngName||'未知'}}</p>
+        <p class="director">导演：{{infomation.articleSource||'未知'}}</p>
         <p class="stars">
-
+          <rater v-model="infomation.movieIMDb" active-color="#FA4455" disabled :margin="0" :font-size="14"></rater>
+          <span>{{infomation.movieIMDb}}</span>
           <img class="imdbmark" src="static/img/IMDb@2x.png">
         </p>
         <p class="tips">
@@ -23,9 +24,15 @@
 </template>
 
 <script>
+import {
+  Rater
+} from 'vux'
 console.log(this.infomation)
 export default {
   name: 'info',
+  components: {
+    Rater
+  },
   props: [
     'info'
   ],
@@ -56,6 +63,8 @@ export default {
         height: 8rem;
         img {
             border-radius: 8px;
+            height: 100%;
+            width: inherit;
         }
     }
     .panel-text {
@@ -65,6 +74,8 @@ export default {
         .title-cn {
             padding-top: 0.5rem;
             font-size: 1.625rem;
+            color: #3F3D3D;
+            line-height: 1.625rem;
         }
         .director,
         .stars,
@@ -82,56 +93,9 @@ export default {
             img {
                 height: 1rem;
                 width: 2rem;
-                float: left;
-            }
-            .imdbstars {
-                position: relative;
-                width: 6rem;
-                height: 0.94rem;
-                float: left;
-                display: block;
-                .imdbstars1 {
-                    display: block;
-                    position: absolute;
-                    left: 0;
-                    border-top: 20%;
-                    border-color: #fff;
-                    height: 80%;
-                    width: 100%;
-                    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJIAAAAYCAYAAAFmV5SmAAAABGdBTUEAALGPC/xhBQAAA5ZJREFUaAXtWL2PTUEUf28REZGNtwpbKEjWJkIvPlqJwp9ApdD4D1QShSioVKKgsDYolCLrbUi2ETQqLZ2EiIhg8ftd90zOnZl7587L7nPfvDnJeefM+ZiZ87tn7sfr/wH1wnQCIS+CYZhrKEHQH4FPqnFlIfjMGOpRcCW3ZwVwqBPMuFBqfFyc/uIH8jgHI1KRK9UUkhOJAapTAmy15ZvyOAlJTdR6zMA+fyS5D9JjsVPSR9nkb/JF5dZNRHtJzzmhJtiXxKntoosPcqRcaYL3nBCTXCvlUE1skPQsyrANz629XLIBJdsdQpWg1Na5ZkNj7Re1U2ddwG6OkcTBxuNGGopNS9h59yFteC57Z6QGLLazCbnFJRPYBAUuJjql9jf5GNvkb/JJ7gyVAH2gH5MVpxDqaiBeu+NzuWsPrXFW2O96fCFTcrnFZbeqfqVhh2/Z8jcNk8wlSE81KCEd8bcVSlORqzvpZRNAAOaxAsdWk841D1oCpO/ONmBExbbpccq5+klyg0UDi6tWm9wqwbioQbH0pHMrnaQKfwudj8pTytZWTS7XC5IcndAR86GWYq4+blKzvgnfE2NLmWSu00nSCQJKTDelmstOOg+eZ4EkAUfkP2th3wPbObGXcjpy0Sk7rMJrh4idYWcpmopcdtI3FL2rFpnSgZitUNetuKnIlRv3F4AwsAAwQ/i2Y/DTGKpK8rkCEsu+XK29MrpQGbmDtHPRJUL809BLCNgrQTUy6VzzCqCfbADiANCahe21oEZwRLdl8rnSGSwc+gDMm7HQLyj7Sp/YHJl6rv6rxCneYyi+5WBfABPAcVFedzxIj4xzTCOd5qkSQl2L4PUx1JfXnQCc2zbSGWkgLdFEhza5mfK6AHwScDYvSapBvkJ/p/gBXoLeKH9FRZH7YTgLXgAfLOVuyFjK604yzmiEY7FXPCYe88+BfZTXjQEyEAuA/yvO8mhbwUZ2BvYa5cZ8W8B3wE2U141C1Q0GuJ3AWRpJLvYalFl3u+0tyN8GfigTtpR53fYQF5Fdw9luJLnuy5F1SXFXZIIRZV63BfDAtnM46/+2dQkrehChP4uI9YXmdX2ouLbO4ez7auO2B/hS++TuP2zBafmIqLlwpDcir+uFxTV2DWffHemJ3UTY9Dz4JvgHmPQbfB+86JbYW/LY2pjyupOMM7vCIr74HgFfAn+2fHXD73BcBx8Gx75oy5x5XUGiXnYW578CnLHWlXya8AAAAABJRU5ErkJggg==");
-                    background-size: 80%;
-                    background-position: left;
-                    background-repeat: no-repeat;
-                    z-index: 2;
-                }
-                .starfill1 {
-                    float: left;
-                    height: 80%;
-                    background-color: red;
-                    z-index: 1;
-                }
-                .starfill2 {
-                    float: left;
-                    width: 6rem;
-                    height: 80%;
-                    background-color: #aaa;
-                    z-index: 1;
-                }
-                .starfill1.w0 {
-                    width: 7%;
-                }
-                .starfill2.w0 {
-                    width: 72%;
-                }
-                .w1 {
-                    width: 7%;
-                }
-                .w0 {
-                    width: 0;
-                }
-                .w2 {
-                    width: 14%;
-                }
+                display: inline-block;
+                float: none;
+                vertical-align: bottom;
             }
 
         }

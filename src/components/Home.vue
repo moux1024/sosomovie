@@ -22,56 +22,29 @@ export default {
   },
   data() {
     return {
-      count: 0,
+      count: 1,
       classObject: "w0",
-      testData: [{
-          img: "static/img/01.jpg",
-          textEn: "Apple",
-          textCn: "芬恩芬恩"
-        },
-        {
-          img: "static/img/02.jpg",
-          textEn: "Car",
-          textCn: "芬恩芬恩"
-        },
-        {
-          img: "static/img/03.jpg",
-          textEn: "pangxie",
-          textCn: "芬恩芬恩"
-        },
-        {
-          img: "static/img/04.jpg",
-          textEn: "vans",
-          textCn: "芬恩芬恩"
-        },
-        {
-          img: "static/img/05.jpg",
-          textEn: "alipay",
-          textCn: "芬恩芬恩"
-        }
-      ],
       movieList: [],
-      BURL: BURL
+      BURL: BURL,
+      end: false
     }
   },
   methods: {
-
-    // load() {
-    //   var vm = this;
-    //   console.log(window);
-    //   axios.get(BURL + ART + "querylist.do").then(function(res) {
-    //     vm.movieList = res.data.list
-    //     console.log(vm.movieList);
-    //   })
-    // },
     loadMore: function() {
-      this.busy = true;
-      var vm = this;
-      axios.get(BURL + ART + "querylist.do").then(function(res) {
-        vm.movieList = vm.movieList.concat(res.data.list)
-        console.log(vm.movieList);
-        vm.busy = false;
-      })
+      if (!this.end) {
+        this.busy = true;
+        var vm = this;
+        axios.get(BURL + ART + "querylist.do" + "?pageSize=7&cateGoryId=107&pageNo=" + vm.count).then(function(res) {
+          vm.count++;
+          vm.movieList = vm.movieList.concat(res.data.list)
+          console.log(vm.movieList);
+          vm.busy = false;
+          if (res.data.nextPage == 0) {
+            vm.end = true
+          }
+        })
+      }
+
     }
   }
 }
