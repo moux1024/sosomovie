@@ -8,7 +8,10 @@
     <div class="short-cut">
       <!-- todo:缺省图片 -->
       <div class="video">
+        <img :src="movieData.moviePoster.split('\|\|\|\|\r\n')[0]||''" alt="">
+        <div class="play">
 
+        </div>
       </div>
       <div class="text-container">
         <Info :info="infomation"></Info>
@@ -113,7 +116,8 @@ export default {
       playerOptions: {},
       movieData: {
         basicPic: "/upload/article/1/1460380829450.jpg",
-        basicDescription: ""
+        basicDescription: "",
+        moviePoster:""
       },
       zIndex: 1,
       showMore: false,
@@ -149,19 +153,6 @@ export default {
       axios.get(BURL + ART + id + "/detail.do.do").then(function(res) {
         vm.movieData = res.data
         vm.infomation = res.data
-        console.log(vm.infomation);
-        console.log(res.data);
-        // vm.playerOptions = {
-        //   muted: true,
-        //   language: 'en',
-        //   playbackRates: [0.7, 1.0, 1.5, 2.0],
-        //   sources: [{
-        //     type: "video/mp4",
-        //     src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-        //   }],
-        //   height: '256px',
-        //   poster: BURL + vm.movieData.moviePoster.split("|")[0],
-        // }
       })
     },
 
@@ -228,6 +219,20 @@ export default {
     .video {
         width: 100%;
         height: 16rem;
+        text-align: center;
+        overflow: hidden;
+        img {
+          width: 100%;
+        }
+        .play {
+          width: 2rem;
+          height: 2rem;
+          position: absolute;
+          top: 4rem;
+          display: inline-block;
+          background: url("../../assets/play@2x.png") no-repeat;
+          background-size: 100%;
+        }
     }
     .text-container {
         position: absolute;

@@ -2,21 +2,21 @@
   <div class="info" >
     <div class="panel">
       <div class="panel-img">
-        <img :src="BURL+infomation.basicPic" :alt="infomation.basicTitle">
+        <img :src="BURL+info.basicPic" :alt="info.basicTitle">
       </div>
       <div class="panel-text">
-        <p class="title-cn">{{infomation.articleName||'未知'}}</p>
-        <p class="title-en">{{infomation.articleEngName||'未知'}}</p>
-        <p class="director">导演：{{infomation.articleSource||'未知'}}</p>
+        <p class="title-cn">{{info.articleName||'未知'}}</p>
+        <p class="title-en">{{info.articleEngName||'未知'}}</p>
+        <p class="director">导演：{{info.articleSource||'未知'}}</p>
         <p class="stars">
-          <rater v-model="infomation.movieIMDb" active-color="#FA4455" disabled :margin="0" :font-size="14"></rater>
-          <span>{{infomation.movieIMDb}}</span>
+          <rater v-model="info.movieIMDb" active-color="#FA4455" disabled :margin="0" :font-size="14"></rater>
+          <span>{{info.movieIMDb}}</span>
           <img class="imdbmark" src="static/img/IMDb@2x.png">
         </p>
         <p class="tips">
-          <span>{{infomation.movieYear||"2017"}}</span>
-          <span>{{infomation.movieCountry||"国家未知"}}</span>
-          <span>{{infomation.movieType||"类型未知"}}</span>
+          <span>{{info.movieYear||"2017"}}</span>
+          <span>{{info.movieCountry||"国家未知"}}</span>
+          <span>{{info.movieType||"类型未知"}}</span>
         </p>
       </div>
     </div>
@@ -27,7 +27,6 @@
 import {
   Rater
 } from 'vux'
-console.log(this.infomation)
 export default {
   name: 'info',
   components: {
@@ -39,7 +38,7 @@ export default {
   data() {
     return {
       msg: 'this is info!',
-      infomation: this.info,
+      // infomation: this.info,
       BURL: BURL
     }
   }
@@ -87,9 +86,6 @@ export default {
             line-height: 1rem;
             height: 1rem;
             color: #FA4455;
-            .imdbscore {
-                float: left;
-            }
             img {
                 height: 1rem;
                 width: 2rem;
