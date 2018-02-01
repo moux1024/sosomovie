@@ -8,7 +8,7 @@
     <div class="short-cut">
       <!-- todo:缺省图片 -->
       <div class="video">
-        <img :src="movieData.moviePoster.split('\|\|\|\|\r\n')[0]||''" alt="">
+        <img :src="poster.url" alt="">
         <div class="play">
 
         </div>
@@ -113,7 +113,9 @@ export default {
         url: "../static/img/05.jpg",
         id: 5
       }],
-      playerOptions: {},
+      poster: {
+        url:"../static/img/loading.gif"
+      },
       movieData: {
         basicPic: "/upload/article/1/1460380829450.jpg",
         basicDescription: "",
@@ -150,9 +152,11 @@ export default {
     load() {
       var vm = this;
       var id = location.hash.split("/")[2];
+      var regExpStr = new RegExp('(\/.*?\.jpg)|(http.*?\.jpg)',"g");
       axios.get(BURL + ART + id + "/detail.do.do").then(function(res) {
         vm.movieData = res.data
         vm.infomation = res.data
+        vm.poster.url = res.data.moviePoster.match(regExpStr)[0][0]=="/"?BURL +res.data.moviePoster.match(regExpStr)[0]:res.data.moviePoster.match(regExpStr)[0]
       })
     },
 
