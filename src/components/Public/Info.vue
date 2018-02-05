@@ -25,12 +25,14 @@
 
 <script>
 import {
-  Rater
+  Rater,
+  Popup
 } from 'vux'
 export default {
   name: 'info',
   components: {
-    Rater
+    Rater,
+    Popup
   },
   props: [
     'info'

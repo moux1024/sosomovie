@@ -7,9 +7,9 @@
 
     <div class="short-cut">
       <!-- todo:缺省图片 -->
-      <div class="video">
-        <img :src="poster.url" alt="">
-        <div class="play">
+      <div class="video" :style="videoBG">
+        <!-- <img :src="poster.url" alt=""> -->
+        <div class="play" @click="playVideo">
 
         </div>
       </div>
@@ -80,19 +80,38 @@
         </div>
       </div>
     </div>
+    <!-- pop -->
+    <div v-transfer-dom>
+      <popup v-model="show1" height="70%">
+        <div class="popup1">
+          <iframe :src="movieData.movieTrailerURL" width="100%" height="200px"></iframe>
+          <!-- <group>
+            <x-switch title="Another XSwitcher" v-model="show1"></x-switch>
+          </group> -->
+        </div>
+      </popup>
+    </div>
   </div>
 </template>
 
 <script>
 import Info from '@/components/Public/Info';
+import {
+  TransferDom,
+  Popup
+} from 'vux';
 import axios from 'axios';
 export default {
+  directives: {
+    TransferDom
+  },
   name: 'detail',
   props: [
     'example'
   ],
   components: {
-    Info
+    Info,
+    Popup
   },
   data() {
     return {
@@ -114,13 +133,19 @@ export default {
         id: 5
       }],
       poster: {
-        url:"../static/img/loading.gif"
+        url: "../static/img/loading.gif"
+      },
+      videoBG: {
+        backgroundImage: "url('../static/img/loading.gif')",
+        backgroundSize: "100%"
       },
       movieData: {
         basicPic: "/upload/article/1/1460380829450.jpg",
         basicDescription: "",
-        moviePoster:""
+        moviePoster: "",
+        movieTrailerURL: ""
       },
+      show1: false,
       zIndex: 1,
       showMore: false,
       infomation: {
@@ -152,11 +177,12 @@ export default {
     load() {
       var vm = this;
       var id = location.hash.split("/")[2];
-      var regExpStr = new RegExp('(\/.*?\.jpg)|(http.*?\.jpg)',"g");
+      var regExpStr = new RegExp('(\/.*?\.jpg)|(http.*?\.jpg)', "g");
       axios.get(BURL + ART + id + "/detail.do.do").then(function(res) {
         vm.movieData = res.data
         vm.infomation = res.data
-        vm.poster.url = res.data.moviePoster.match(regExpStr)[0][0]=="/"?BURL +res.data.moviePoster.match(regExpStr)[0]:res.data.moviePoster.match(regExpStr)[0]
+        vm.poster.url = res.data.moviePoster.match(regExpStr)[0][0] == "/" ? BURL + res.data.moviePoster.match(regExpStr)[0] : res.data.moviePoster.match(regExpStr)[0]
+        vm.videoBG.backgroundImage = "url('" + vm.poster.url + "')";
       })
     },
 
@@ -168,6 +194,10 @@ export default {
     },
     download(url) {
       window.open(url)
+    },
+    playVideo() {
+      console.log("start");
+      this.show1 = true
     }
   },
   beforeMount() {
@@ -178,6 +208,9 @@ export default {
 </script>
 
 <style lang="less">
+#youku-playerBox {
+    height: 200px;
+}
 .header {
     position: fixed;
     width: 90%;
@@ -226,16 +259,14 @@ export default {
         text-align: center;
         overflow: hidden;
         img {
-          width: 100%;
+            width: 100%;
         }
         .play {
-          width: 2rem;
-          height: 2rem;
-          position: absolute;
-          top: 4rem;
-          display: inline-block;
-          background: url("../../assets/play@2x.png") no-repeat;
-          background-size: 100%;
+            width: 2rem;
+            height: 2rem;
+            margin: 4rem auto;
+            background: url("../../assets/play@2x.png") no-repeat;
+            background-size: 100%;
         }
     }
     .text-container {
